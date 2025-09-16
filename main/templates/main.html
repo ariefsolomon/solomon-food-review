@@ -1,1 +1,27 @@
-<h1>{{ app_name }}</h1>
+{% extends 'base.html' %}
+
+{% block title %}Home - {{ app_name }}{% endblock %}
+
+{% block content %}
+    <h2 class="text-2xl font-bold mb-8 text-center">Latest Food Reviews</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for food in foods %}
+            <div class="frosted-glass p-4 transition-transform duration-300 transform hover:scale-105">
+                <a href="{% url 'main:food_detail' food.pk %}">
+                    {% if food.thumbnail %}
+                        <img src="{{ food.thumbnail }}" alt="{{ food.food_name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    {% else %}
+                        <div class="w-full h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
+                            <span class="text-gray-400">No Image</span>
+                        </div>
+                    {% endif %}
+                    <h3 class="text-xl font-semibold mb-2">{{ food.food_name }}</h3>
+                    <p class="text-gray-300 text-sm mb-2">{{ food.created_at }}</p>
+                    {% if food.is_review_hot %}
+                        <span class="inline-block bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">HOT REVIEW 🔥</span>
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

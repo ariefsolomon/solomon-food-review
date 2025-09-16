@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Solomon Food Reviews{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            font-family: sans-serif;
+        }
+        .frosted-glass {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+        }
+
+        /* Efek Cahaya Halus */
+        .glowing-text {
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.5),
+                         0 0 8px rgba(0, 123, 255, 0.6),
+                         0 0 12px rgba(0, 123, 255, 0.4);
+            transition: text-shadow 0.5s ease-in-out;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="font-sans">
+
+    <header class="py-6 px-8 flex justify-between items-center">
+        <h1 id="header-title" class="text-3xl font-bold">
+            <a href="{% url 'main:show_main' %}" class="glowing-text">
+                <span id="typing-text"></span>
+            </a>
+        </h1>
+    </header>
+
+    <main class="container mx-auto px-8 py-12">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textElement = document.getElementById('typing-text');
+            const headerTitle = document.getElementById('header-title');
+            const targetText = "Solomon Food Reviews";
+            let i = 0;
+            let isDeleting = false;
+            let initialHeightSet = false;
+
+            function getRandomDelay(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            function typeWriter() {
+                if (!isDeleting) {
+                    if (i < targetText.length) {
+                        textElement.textContent += targetText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, getRandomDelay(100, 180));
+                    } else {
+                        // Setelah teks selesai, ukur tinggi dan tetapkan
+                        if (!initialHeightSet) {
+                            const currentHeight = headerTitle.clientHeight;
+                            headerTitle.style.minHeight = `${currentHeight}px`;
+                            initialHeightSet = true;
+                        }
+
+                        // Selesai mengetik, jeda lalu mulai menghapus
+                        setTimeout(() => {
+                            isDeleting = true;
+                            typeWriter();
+                        }, getRandomDelay(2000, 3000));
+                    }
+                } else {
+                    if (textElement.textContent.length > 0) {
+                        textElement.textContent = textElement.textContent.substring(0, textElement.textContent.length - 1);
+                        setTimeout(typeWriter, getRandomDelay(70, 120));
+                    } else {
+                        // Selesai menghapus, ulang siklus
+                        isDeleting = false;
+                        i = 0;
+                        setTimeout(typeWriter, getRandomDelay(700, 1200));
+                    }
+                }
+            }
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
