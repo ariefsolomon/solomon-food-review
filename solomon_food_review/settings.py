@@ -30,7 +30,10 @@ SECRET_KEY = 'django-insecure-qwm(o5#d890(#i@ynd#ek0(5l5p!oy(v^2b!1l#@9srioz9h^t
 # PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'solomon-food-review-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = [
+    "https://solomon-food-review-production.up.railway.app/",
+]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
