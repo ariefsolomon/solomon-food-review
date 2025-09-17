@@ -28,11 +28,12 @@ SECRET_KEY = 'django-insecure-qwm(o5#d890(#i@ynd#ek0(5l5p!oy(v^2b!1l#@9srioz9h^t
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'solomon-food-review-production.up.railway.app']
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://solomon-food-review-production.up.railway.app/",
+    "https://solomon-food-review-production.up.railway.app",
 ]
 
 LOGIN_URL = '/login/'
@@ -104,12 +105,11 @@ WSGI_APPLICATION = 'solomon_food_review.wsgi.application'
 # else:
     # Development: gunakan SQLite
     
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+}
 
 
 # Password validation
